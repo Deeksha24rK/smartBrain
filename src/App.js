@@ -113,7 +113,7 @@ class App extends Component {
 
   handleOnProfileClick = () => {
     this.onRouteChange("Profile")
-    fetch(`http://localhost:3000/profile/${this.state.user.id}`)
+    fetch(`https://smart-brain-backend-kbea.onrender.com/profile/${this.state.user.id}`)
       .then(response => response.json())
       .then(data => this.setState({ currentUserData: data }))
   }
@@ -130,7 +130,7 @@ class App extends Component {
       .then((result) => {
         this.displayFaceBox(this.calculateFaceLocation(result))
         if (result) {
-          fetch("http://localhost:3000/image", {
+          fetch("https://smart-brain-backend-kbea.onrender.com/image", {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

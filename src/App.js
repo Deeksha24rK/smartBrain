@@ -10,43 +10,7 @@ import Register from "./components/Register/Register";
 import "./App.css";
 import Profile from "./components/Profile/Profile";
 
-// TO-DO: Play around with different models
-const MODEL_ID = "face-detection";
-
-const returnClarifyRequestOptions = (imageURL) => {
-  const PAT = "ce53ddff59c943faaa0edc8e90834b3e";
-  const USER_ID = "59zf7da7czjz";
-  const APP_ID = "my-first-application-0290u";
-  const IMAGE_URL = imageURL;
-
-  const raw = JSON.stringify({
-    user_app_id: {
-      user_id: USER_ID,
-      app_id: APP_ID,
-    },
-    inputs: [
-      {
-        data: {
-          image: {
-            url: IMAGE_URL,
-          },
-        },
-      },
-    ],
-  });
-
-  const requestOptions = {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      Authorization: "Key " + PAT,
-    },
-    body: raw,
-  };
-
-
-  return requestOptions;
-};
+// TO - DO: Play around with different clarifai models 
 
 const initialState = {
   inputField: '',
@@ -121,11 +85,13 @@ class App extends Component {
   onButtonSubmit = () => {
     this.setState({ imageUrl: this.state.inputField })
 
-    fetch(
-      "https://api.clarifai.com/v2/models/" + MODEL_ID + "/outputs",
-      returnClarifyRequestOptions(this.state.inputField)
-    )
-
+    fetch('https://smart-brain-backend-kbea.onrender.com/imageurl', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        imageURL: this.state.inputField
+      })
+    })
       .then((response) => response.json())
       .then((result) => {
         this.displayFaceBox(this.calculateFaceLocation(result))
